@@ -86,26 +86,26 @@ function family(t){if(["WORM","WOWWORM"].includes(t))return"WORM";if(["BUG","BIL
 function sameFamily(t){let f=family(t);return enemies.some(e=>e&&family(e.type)===f);}
 function hpFor(type,base){
  let f=family(type);
- if(type==="MRBUGOLLAR"&&wave>=10)return 250;
- if(wave>=10){if(f==="MUSHROOM")return 60;if(f==="BUG")return 180;if(f==="VIRUS")return 150;if(f==="WORM")return 100;if(f==="SPIDER")return 125;}
- if(wave>=9){if(f==="MUSHROOM")return 30;if(f==="BUG")return 90;if(f==="VIRUS")return 75;if(f==="WORM")return 50;if(f==="SPIDER")return 60;}
- if(wave>=8){if(f==="MUSHROOM")return 15;if(f==="BUG")return 45;if(f==="VIRUS")return 50;if(f==="WORM")return 25;if(f==="SPIDER")return 30;}
+ if(type==="MRBUGOLLAR"&&wave>=10)return 125;
+ if(wave>=10){if(f==="MUSHROOM")return 30;if(f==="BUG")return 90;if(f==="VIRUS")return 75;if(f==="WORM")return 50;if(f==="SPIDER")return 63;}
+ if(wave>=9){if(f==="MUSHROOM")return 15;if(f==="BUG")return 45;if(f==="VIRUS")return 38;if(f==="WORM")return 25;if(f==="SPIDER")return 30;}
+ if(wave>=8){if(f==="MUSHROOM")return 8;if(f==="BUG")return 23;if(f==="VIRUS")return 25;if(f==="WORM")return 13;if(f==="SPIDER")return 15;}
  if(wave>=7){if(f==="MUSHROOM")return 8;if(f==="BUG")return 23;if(f==="VIRUS")return 25;if(f==="WORM")return 13;if(f==="SPIDER")return 15;}
  return base;
 }
 function stats(type){
  let s={type,x:1040,y:70+Math.random()*330,w:44,h:44,vx:-2,hp:1,maxHp:1,value:1,damage:1,label:type,t:0,shoot:60+Math.random()*80};
- if(type==="MINION"){Object.assign(s,{w:36,h:42,vx:-4-wave*.24,value:1,damage:1,label:"MINION MUSHROOM",color:"#3FA9FF"});}
- if(type==="MEGA"){Object.assign(s,{w:54,h:54,vx:-2.8-wave*.2,value:2,damage:2,label:"MEGA MUSHROOM",color:"#FF3B30"});}
- if(type==="WORM"){Object.assign(s,{w:240,h:44,vx:-1.05,hp:10,value:3,damage:3,label:"WILLY WAGGLE WORM",seg:11});}
- if(type==="SPIDER"){Object.assign(s,{w:48,h:42,vx:-3.1-wave*.2,hp:15,value:2,damage:5,label:"SPACEY SPIDER",color:"#8CFF5F"});}
- if(type==="BUG"){Object.assign(s,{w:96,h:82,vx:-1.25,hp:20,value:3,damage:5,label:"BUG BEAST",color:"#39FF61",ant:2});}
- if(type==="VIRUSREX"){Object.assign(s,{w:104,h:104,vx:-.95,hp:30,value:6,damage:5,label:"VIRUS-REX"});}
- if(type==="BILLY"){Object.assign(s,{w:130,h:55,vx:-1.55,hp:20,value:1,damage:10,label:"BILLY BUG",color:"#7CFF4D"});}
- if(type==="VICTOR"){Object.assign(s,{w:96,h:70,vx:-1.35,hp:30,value:2,damage:5,label:"VIRUS VICTOR",color:"#1E7CFF"});}
- if(type==="BOB"){Object.assign(s,{w:120,h:92,vx:-1.15,hp:20,value:3,damage:5,label:"BOB THE BUGGER",color:"#083F1D",ant:7});}
- if(type==="WOWWORM"){Object.assign(s,{w:260,h:50,vx:-2.2,hp:10,value:2,damage:10,label:"WOW WORM",seg:12});}
- if(type==="MRBUGOLLAR"){Object.assign(s,{w:150,h:120,vx:-.9,hp:20,value:10,damage:25,label:"MR BUGOLLAR",color:"#39FF61",ant:10});}
+ if(type==="MINION"){Object.assign(s,{w:36,h:42,vx:-4-wave*.24,value:2,damage:1,label:"MINION MUSHROOM",color:"#3FA9FF"});}
+ if(type==="MEGA"){Object.assign(s,{w:54,h:54,vx:-2.8-wave*.2,value:4,damage:2,label:"MEGA MUSHROOM",color:"#FF3B30"});}
+ if(type==="WORM"){Object.assign(s,{w:240,h:44,vx:-1.05,hp:10,value:6,damage:3,label:"WILLY WAGGLE WORM",seg:11});}
+ if(type==="SPIDER"){Object.assign(s,{w:48,h:42,vx:-3.1-wave*.2,hp:15,value:4,damage:5,label:"SPACEY SPIDER",color:"#8CFF5F"});}
+ if(type==="BUG"){Object.assign(s,{w:96,h:82,vx:-1.25,hp:20,value:6,damage:5,label:"BUG BEAST",color:"#39FF61",ant:2});}
+ if(type==="VIRUSREX"){Object.assign(s,{w:104,h:104,vx:-.95,hp:30,value:12,damage:5,label:"VIRUS-REX"});}
+ if(type==="BILLY"){Object.assign(s,{w:130,h:55,vx:-1.55,hp:20,value:2,damage:10,label:"BILLY BUG",color:"#7CFF4D"});}
+ if(type==="VICTOR"){Object.assign(s,{w:96,h:70,vx:-1.35,hp:30,value:4,damage:5,label:"VIRUS VICTOR",color:"#1E7CFF"});}
+ if(type==="BOB"){Object.assign(s,{w:120,h:92,vx:-1.15,hp:20,value:6,damage:5,label:"BOB THE BUGGER",color:"#083F1D",ant:7});}
+ if(type==="WOWWORM"){Object.assign(s,{w:260,h:50,vx:-2.2,hp:10,value:4,damage:10,label:"WOW WORM",seg:12});}
+ if(type==="MRBUGOLLAR"){Object.assign(s,{w:150,h:120,vx:-.9,hp:20,value:20,damage:25,label:"MR BUGOLLAR",color:"#39FF61",ant:10});}
  s.hp=hpFor(type,s.hp);s.maxHp=s.hp;
  if(s.seg){s.segments=[];for(let i=0;i<s.seg;i++)s.segments.push({x:s.x+i*22,y:s.y});}
  return s;
