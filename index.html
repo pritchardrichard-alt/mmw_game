@@ -3,45 +3,156 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mighty Mini World Portal</title>
+<title>Mighty Mini World Games</title>
 <style>
-body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(#081326,#12254a);color:white}
-header{text-align:center;padding:40px 20px}
-h1{font-size:3em;margin:0}
-.subtitle{font-size:1.2em;opacity:.8}
-.grid{max-width:1200px;margin:auto;padding:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
-.card{background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.15);border-radius:20px;padding:20px}
-.card h2{margin-top:0;color:#7dff84}
-.play{display:inline-block;margin-top:10px;padding:10px 20px;background:#7dff84;color:#000;text-decoration:none;border-radius:10px;font-weight:bold}
-footer{text-align:center;padding:30px;opacity:.6}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:radial-gradient(circle at top,#1e3d7a,#071124 65%);
+  color:white;
+  min-height:100vh;
+}
+header{
+  text-align:center;
+  padding:38px 18px 18px;
+}
+h1{
+  margin:0;
+  font-size:clamp(2rem,7vw,4rem);
+  letter-spacing:1px;
+}
+.subtitle{
+  margin-top:10px;
+  font-size:1.1rem;
+  opacity:.85;
+}
+.grid{
+  width:min(1100px,94%);
+  margin:20px auto 50px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:18px;
+}
+.card{
+  background:rgba(255,255,255,.10);
+  border:2px solid rgba(125,255,132,.35);
+  border-radius:22px;
+  padding:22px;
+  box-shadow:0 10px 25px rgba(0,0,0,.25);
+}
+.card h2{
+  margin:0 0 10px;
+  color:#7dff84;
+  font-size:1.4rem;
+}
+.card p{
+  opacity:.85;
+  min-height:38px;
+}
+.play{
+  display:inline-block;
+  margin-top:10px;
+  padding:12px 22px;
+  background:#7dff84;
+  color:#06110a;
+  text-decoration:none;
+  border-radius:12px;
+  font-weight:bold;
+}
+.note{
+  width:min(900px,94%);
+  margin:0 auto 30px;
+  text-align:center;
+  opacity:.75;
+  font-size:.95rem;
+}
+footer{
+  text-align:center;
+  padding:25px;
+  opacity:.55;
+}
 </style>
 </head>
 <body>
+
 <header>
-<h1>🎮 MIGHTY MINI WORLD</h1>
-<div class="subtitle">Games • Books • BUGOLLARS • Adventures</div>
+  <h1>🎮 MIGHTY MINI WORLD</h1>
+  <div class="subtitle">Choose a game and start playing</div>
 </header>
 
-<div class="grid">
-<div class="card">
-<h2>BUGGED OUT</h2>
-<p>Help CappyCat collect BUGOLLAR coins and avoid dangerous bugs.</p>
-<a class="play" href="Bugged_Out.html">PLAY</a>
-</div>
-
-<div class="card">
-<h2>MIGHTY MINI WORLD</h2>
-<p>Explore the world of CappyCat and the Bacterium Network.</p>
-<a class="play" href="MMW_Game.html">PLAY</a>
-</div>
-
-<div class="card">
-<h2>BUGOLLAR DEFENDER</h2>
-<p>Defend the universe and earn BUGOLLAR coins.</p>
-<a class="play" href="Defender.html">PLAY</a>
-</div>
-</div>
+<div class="note" id="status">Finding games...</div>
+<div class="grid" id="games"></div>
 
 <footer>© Mighty Mini World</footer>
+
+<script>
+const owner = "pritchardrichard-alt";
+const repo = "mmw_game";
+const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/`;
+
+function niceName(fileName){
+  return fileName
+    .replace(/\.html$/i,"")
+    .replace(/_/g," ")
+    .replace(/-/g," ")
+    .replace(/\b\w/g, c => c.toUpperCase());
+}
+
+function gameDescription(name){
+  const lower = name.toLowerCase();
+  if(lower.includes("bugged")) return "Help CappyCat collect BUGOLLARS and dodge dangerous bugs.";
+  if(lower.includes("mmw")) return "Enter Mighty Mini World and battle through the adventure.";
+  return "Play this Mighty Mini World game.";
+}
+
+function makeCard(fileName){
+  const card = document.createElement("div");
+  card.className = "card";
+
+  const title = document.createElement("h2");
+  title.textContent = niceName(fileName);
+
+  const desc = document.createElement("p");
+  desc.textContent = gameDescription(fileName);
+
+  const link = document.createElement("a");
+  link.className = "play";
+  link.href = fileName;
+  link.textContent = "PLAY";
+
+  card.appendChild(title);
+  card.appendChild(desc);
+  card.appendChild(link);
+  return card;
+}
+
+fetch(apiUrl)
+  .then(response => response.json())
+  .then(files => {
+    const games = files
+      .filter(file => file.type === "file")
+      .map(file => file.name)
+      .filter(name => name.toLowerCase().endsWith(".html"))
+      .filter(name => name.toLowerCase() !== "index.html")
+      .sort();
+
+    const grid = document.getElementById("games");
+    const status = document.getElementById("status");
+
+    if(games.length === 0){
+      status.textContent = "No game pages found yet. Upload HTML game files beside this index.html file.";
+      return;
+    }
+
+    status.textContent = `${games.length} game page${games.length === 1 ? "" : "s"} found`;
+    games.forEach(game => grid.appendChild(makeCard(game)));
+  })
+  .catch(error => {
+    document.getElementById("status").textContent =
+      "Could not auto-load the games. Make sure this repository is public and GitHub Pages is active.";
+  });
+</script>
+
 </body>
 </html>
